@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main(void) {
+    
+    /*
+    -----------------
+    zad 1
+    -----------------
+    */
+
+    double x, y;
+    char znak;
+
+    printf("ENTER [number_1] [+-*/] [number_2]\n");
+    scanf("%lf %c %lf", &x, &znak, &y);
+
+    switch(znak){
+        case '+':
+            printf("Wynik: %lf %c %lf = %lf\n", x, znak, y, (x + y));
+            break;
+    
+        case '-':
+            printf("Wynik: %lf %c %lf = %lf\n", x, znak, y, (x - y));
+            break;
+
+        case '*':
+            printf("Wynik: %lf %c %lf = %lf\n", x, znak, y, (x * y));
+            break;
+
+        case '/':
+            printf("Wynik: %lf %c %0.00lf = %lf\n", x, znak, y, (x / y));
+            break;
+
+        default: 
+            printf("Niewłaściwy operator!!!\n");
+    }
+
+    /*
+    -----------------
+    zad 2
+    -----------------
+    */
+
+    double a, b, c;
+    double delta;
+
+    printf("\nENTER [A] [B] [C]\n");
+
+    scanf("%lf %lf %lf", &a, &b, &c);
+    delta = pow(b, 2) - (4 * a * c);
+
+    if(delta > 0){
+        printf("Pierwszy pierwiastek równania: %lf\n", 	(-b - sqrt(delta) ) / (2 * a) );
+        printf("Drugi pierwiastek równania: %lf\n",		(-b + sqrt(delta) ) / (2 * a) );
+    }    
+
+    else if(delta == 0){
+        printf("Podwójny pierwiastek równania: %lf\n", 	(-b)/(2*a) );
+    }
+
+    else{
+        printf("Pierwszy pierwiastek równiania: %lf - i%lf\n", 	(-b)/(2*a) , (sqrt(fabs(delta)))/(2*a) );
+        printf("Drugi pierwiastek równiania: %lf + i%lf\n", 	(-b)/(2*a) , (sqrt(fabs(delta)))/(2*a) );
+    }
+
+    /*
+    -----------------
+    zad 3
+    -----------------
+    */
+
+    int n;
+    printf("\nWpisz liczbę całkowitą: ");
+    scanf("%d", &n);
+    printf("Dzielniki liczby %d:\n", n);
+    for(int i = 2; i < n; i++) if(!(n%i)) printf("%d\n", i);
+  
+}

@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+const int N = 10;
+
+int main(){
+
+    /*
+    ----------------------
+    Zad. 1.
+    ----------------------
+    */ 
+    
+    srand(time(NULL));
+    int tablica[N];
+
+    printf("Nieposortowana tablica:\n");
+    for(int i = 0; i < N; i++){
+        tablica[i] = (rand() % (41)) + 10;
+        printf("%d\n", tablica[i]);
+    }
+
+    /*
+    ----------------------
+    Zad. 2.
+    ----------------------
+    */
+
+    int zamiany = 0;
+    while(1){
+        for(int i = 1; i < N; i++){
+            if(tablica[i-1] < tablica[i]){
+                int t = tablica[i];
+                tablica[i] = tablica [i-1];
+                tablica[i-1] = t; 
+
+                zamiany++;
+            }
+        }
+        if(!zamiany) break;
+        zamiany = 0;
+    }
+
+    printf("\nPosortowana tablica:\n");
+    for(int i = 0; i < N; i++){
+        printf("%d\n", tablica[i]);
+    }
+
+    /*
+    ----------------------
+    Zad. 3.
+    ----------------------
+    */
+
+    printf("\nWpisz literę: ");
+
+    char znak;
+    scanf("%c ", &znak);
+
+    if((znak >= 65) & (znak <= 90 )){
+        printf("Mała litera: %c\n", znak+=32);
+    }
+    else if((znak >= 97) & (znak <= 122 )){
+        printf("Wielka litera: %c\n", znak-=32);
+    }
+    else{
+        printf("Niewłaściwy znak!\n");
+    }
+
+}

@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+const int N = 100;
+
+int main(){
+
+    //Zad. 1. 
+
+    double fib[N] = {0,1};
+    double fi = (1 + sqrt(5)) / 2;
+
+    for(int i = 2; i < N; i++){
+        fib[i] = fib[i-1] + fib[i-2];
+    }
+
+    for(int i = 1; i < N; i++){
+        if(fabs((fib[i] / fib[i-1]) - fi) < 0.01){
+            printf("Element %d spełnia warunek zadania\n", i);
+            break;
+        }
+    }
+
+    //Zad. 2.
+
+    int liczby[N];
+    int max = 0;
+    int index;
+
+    for(int i = 0; i < N; i++){
+        liczby[i] = (rand() % (11)) + 5;
+    }
+
+    for(int i = 0; i < N; i++){
+        if(liczby[i] > max){
+            max = liczby[i];
+            index = i;
+        }
+    }
+
+    printf("Indeks największego elementu tablicy: %d\n", index);
+
+    return 0;
+}

@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+
+long int silnia(int);
+double my_exponent(double, double);
+void statystyka(double[], int, int, double[]);
+
+
+
+int main(void){
+    //silnia
+    printf("0! = %ld\n", silnia(0));
+    printf("3! = %ld\n", silnia(3));
+    printf("10! = %ld\n\n", silnia(10));
+
+    //exponenta
+    printf("my_exponent(2.5, 0.001) = %lf\n", my_exponent(2.5, 0.001));
+    printf("exp(2.5) = %lf\n\n", exp(2.5));
+
+    //statystyka
+    const int N = 20;
+    double zmienne_losowe[N];
+    double momenty[2];
+
+    for(int i = 0; i < N; i++){
+        zmienne_losowe[i] = rand() % 10 + 1;
+
+        printf("%d. zmienna losowa: %.0lf\n",i+1 , zmienne_losowe[i]);
+    }
+
+    statystyka(zmienne_losowe, 2, 2, momenty);
+    printf("moment rozkładu drugiego stopnia = %lf\n", momenty[0]);
+    printf("moment centralny drugiego stopnia = %lf\n", momenty[1]);
+}
+
+
+
+/*
+---------------------------------------------
+Zad. 1.
+
+Podawanie nazwy zmiennej w argumencie funkcji 
+nie jest konieczne w prototypie funkcji, 
+ale jest konieczne w definicji funkcji.
+
+Zalety prototypów funkcji:
+- pozwalają na wywołanie funkcji 
+jeszcze zanim zostanie zdefiniowana
+-
+
+
+Long int ma szerszy 
+zakres niż int, pozwala opóźnić 
+przekroczenie zakresu
+liczb całkowitych.
+---------------------------------------------
+*/
+long int silnia(int n){
+    long int wynik = 1;
+
+    for(int i = 1; i <= n; i++){
+        wynik *= i;
+    }
+
+    return wynik;
+}
+
+
+
+/*
+---------------------------------------------
+Zad. 2.
+---------------------------------------------
+*/
+double my_exponent(double x, double eps){
+    int y = (int) x;
+    double z = x - y;
+
+
+    int N = 0;
+    for(; fabs(pow(z,N)/silnia(N)) > eps; N++);
+
+
+    double suma = 0;
+    for(int i = 0; i <= N; i++){
+        suma += pow(z, i) / silnia(i);
+    }
+
+
+    return (pow(M_E, y) * suma);
+}
+
+
+
+/*
+---------------------------------------------
+Zad. 3.
+---------------------------------------------
+*/
+void statystyka(double tab[],int n, int k, double tab_momenty[]){
+    const int N = 20;
+
+
+    //moment rozkładu
+    tab_momenty[0] = 0;
+    for(int i = 0; i < N; i++){
+        tab_momenty[0] += pow(tab[i],n) / N;
+    }
+
+
+    //średnia arytmetyczna
+    int srednia = 0;
+    for(int i = 0; i < N; i++){
+        srednia += tab[i]/N;
+    } 
+
+
+    //moment centralny rozkładu 
+    tab_momenty[1] = 0;
+    for(int i = 0; i < N; i++){
+        tab_momenty[1] += pow((tab[i] - srednia), k) / (N-1);
+    }
+}

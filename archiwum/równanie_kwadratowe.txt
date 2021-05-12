@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main(){
+
+    //zad 1
+    double a, b;
+    char działanie;
+
+    printf("ENTER [number_1] [+-*/] [number_2]\n");
+
+    scanf("%lf", &a);
+    scanf(" %c", &działanie);
+    scanf("%lf", &b);
+
+    switch(działanie){
+        case '+':
+            printf("%lf %c %lf = %lf\n", a, działanie, b, a + b);
+            break;
+
+        case '-':
+            printf("%lf %c %lf = %lf\n", a, działanie, b, a - b);
+            break;
+
+        case '*':
+            printf("%lf %c %lf = %lf\n", a, działanie, b, a * b);
+            break;
+
+        case '/':
+            printf("%lf %c %lf = %lf\n", a, działanie, b, a / b);
+            break;
+
+        default:
+            printf("niewłaściwy operator\n");
+    }
+
+    //zad 2
+    double A, B, C;
+    double delta;
+
+    printf("\nENTER [A] [B] [C]\n");
+
+    scanf("%lf", &A);
+    scanf("%lf", &B);
+    scanf("%lf", &C);
+
+    delta = pow(B, 2) - (4*A*C);
+
+    if(delta > 0){
+        printf("Pierwszy pierwiastek równania: %lf\n", (-B - sqrt(delta))/(2*A) );
+        printf("Drugi pierwiastek równania: %lf\n", (-B + sqrt(delta))/ (2*A) );
+    }    
+
+    else if(delta == 0){
+        printf("Podwójny pierwiastek równania: %lf", (-B)/(2*A) );
+    }
+
+    else{
+        double delta_fabs_sqrt = sqrt(fabs(delta));
+
+        printf("Pierwszy pierwiastek równiania: %lf - i%lf\n", (-B)/(2*A) , (delta_fabs_sqrt)/(2*A) );
+
+        printf("Drugi pierwiastek równiania: %lf + i%lf\n", (-B)/(2*A) , (delta_fabs_sqrt)/(2*A) );
+    }
+
+    //zad 3
+    int N;
+
+    printf("\nENTER [N]\n");
+    scanf("%d", &N);
+
+    printf("dzielniki %d:\n", N);
+
+    for(int i = 2; i < N; i++){
+        if( N%i == 0) printf("%d\n", i);
+    }
+}

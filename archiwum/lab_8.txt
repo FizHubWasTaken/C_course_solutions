@@ -1,0 +1,165 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#define SIZE 20
+
+bool includes_lower(int[], int, int);
+double power(double, int);
+double sum(double[], int);
+double sum_p(double*, int, int);
+
+int main(void){
+    /*
+    ---------------------------------------------
+    Zad. 1.
+    ---------------------------------------------
+    */
+    printf("\nZadanie 1.\n");
+
+    int arr1[SIZE];
+    for(int i = 0; i < SIZE; i++){
+        arr1[i] = rand() % 21 + 10;
+        
+        // printf("arr1[%d] = %d\n", i, arr1[i]); //test printf
+    }
+
+
+    int number = 12; //liczba do porównania
+    if(includes_lower(arr1, SIZE, number)){
+        printf("Lista zawiera element mniejszy niż %d\n", number);
+    }
+    else{
+        printf("Lista nie zawiera elementu mniejszego niż %d\n", number);
+    }
+
+
+
+    /*
+    ---------------------------------------------
+    Zad. 2.
+    ---------------------------------------------
+    */
+    printf("\nZadanie 2.\n");
+
+    double a = 2.2;
+    int b = 3;
+    printf("%d potęga liczby %.1lf wynosi: %.3lf\n", b, a, power(a, b));
+
+
+
+    /*
+    ---------------------------------------------
+    Zad. 3.
+    ---------------------------------------------
+    */
+    printf("\nZadanie 3.\n");
+
+    double arr3[SIZE];
+    for(int i = 0; i < SIZE; i++){
+        arr3[i] = (double)rand() / RAND_MAX;
+        
+        // printf("arr3[%d] = %f\n", i, arr3[i]); //test printf
+    }
+
+    printf("Suma elementów tablicy wynosi: %lf\n", sum(arr3, SIZE));
+
+
+
+    /*
+    ---------------------------------------------
+    Zad. 4.
+    ---------------------------------------------
+    */
+    printf("\nZadanie 4.\n");
+
+    double arr4[SIZE];
+    for(int i = 0; i < SIZE; i++){
+        arr4[i] = (double)rand() / RAND_MAX;
+
+        // printf("arr4[%d] = %lf\n", i, arr4[i]); //test printf
+    }
+
+    double* pointer = &arr4[0]; 
+    printf("Suma elementów tablicy wynosi: %lf\n", sum_p(pointer, SIZE, 1));
+    // printf("Suma elementów tablicy wynosi: %lf\n", sum_p(pointer, SIZE, 2));
+
+
+
+    /*
+    ---------------------------------------------
+    Zad. 5.
+    ---------------------------------------------
+    */
+    printf("\nZadanie 5.\n");
+
+    float x;
+    float* pa;
+    float* pb;
+    x = 9.99;
+    pa = &x;
+    pb = NULL;
+
+    printf("Adresy:\n");
+    printf("&x = %p, &pa = %p, &pb = %p\n", &x, &pa, &pb);
+
+
+    printf("Wartości:\n");
+    printf("x = %f, pa = %p, pb = %p\n", x, pa, pb);
+    
+    pb = pa;
+
+    printf("Wartości 2:\n");
+    printf("x = %f, pa = %p, pb = %p\n", x, pa, pb);
+
+    *pb = 6.66;
+
+    printf("Wartości 3:\n");
+    printf("x = %f, pa = %p, pb = %p\n", x, pa, pb);
+
+    printf("Wartości przechowywane przez wskaźniki:\n");
+    printf("*pa = %f, *pb = %f\n", *pa, *pb);
+}
+
+//1.
+bool includes_lower(int array[], int array_size, int num){
+    //jeżeli lista jest pusta, na pewno nie zawiera
+    //liczby mniejszej niż num
+    if(!array_size) return 0;
+
+    return  includes_lower(array, array_size - 1, num) 
+            || (array[array_size - 1] < num);
+}
+
+//2.
+double power(double base, int exponent){
+    //x^0 = 1;
+    if(!exponent) return 1;
+    
+    return power(base, exponent - 1) * base;
+}
+
+//3.
+double sum(double array[], int array_size){
+    //pusta suma wynosi 0
+    if(!array_size) return 0;
+
+    return sum(array, array_size -1) + array[array_size - 1];
+}
+
+//4.
+double sum_p(double* p, int array_size, int loop_choice){
+    double result = 0;
+    double* p_end = p + array_size;
+
+    switch(loop_choice){
+        case 1:
+            while(p < p_end) result += *(p++);
+            break;
+
+        case 2:
+            for(; p < p_end; p++) result += *p;
+            break;
+    }
+
+    return result;
+}

@@ -1,0 +1,76 @@
+//for fun, przepisać na kod funkcyjny
+//dać funkscji rand zmienne ziarno
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+const int N = 10;
+
+int main(){
+
+    /*
+    --------------------------------------------
+    ZADANIA 1 i 2
+    --------------------------------------------
+    */
+
+    int vect1[N], vect2[N];
+    float angle = 0;
+
+    float len1 = 0, len2 = 0;
+    float sum_v1v2 = 0;
+
+    for(int i = 0; i < N; i++){
+        vect1[i] = rand()%(11);
+        vect2[i] = rand()%(11);
+    }
+
+    //blok liczy długości wektorów
+    for(int i = 0; i < N; i++){
+        len1 += pow(vect1[i], 2);
+        len2 += pow(vect1[i], 2);
+    }
+    len1 = sqrt(len1);
+    len2 = sqrtf(len2);
+
+    //blok liczy sumę iloczynów współrzędnych
+    for(int i = 0; i < N; i++){
+        sum_v1v2 += vect1[i] * vect2[i];
+    }
+
+    //kąt w radianach
+    angle = acos(sum_v1v2 / (len1 * len2));
+
+    //kąt w stopniach
+    angle = angle * (180 / M_PI);
+
+    //zad 1
+    printf("Zad. 1.\nDługość  wektora wynosi: %f\n\n", len1);
+    //zad 2
+    printf("Zad. 2.\nKąt między dwoma wektorami wynosi (w stopniach): %f\n\n", angle);
+
+
+    /*
+    --------------------------------------------
+    ZADANIE 3
+
+    Wynik dzielenia zmiennych int 2/5 to 0.
+
+    Aby wynik był prawidłowy, trzeba konwertować 
+    conajmniej jedną ze zmiennych do typu float,
+    a wynik zapisać do zmiennej typu float.
+    --------------------------------------------
+    */
+
+    int x = 2, y = 5;
+
+    int temp = x;
+    x = y;
+    y = temp;
+
+    float y_over_x = y / (float)x;
+
+    printf("Zad. 3.\ny/x = %.2f\n", y_over_x);
+
+}

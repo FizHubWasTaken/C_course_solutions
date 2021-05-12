@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#define SIZE 10
+
+void Cart_to_Polar(double, double, double*, double*);
+void Polar_to_Cart(double, double, double*, double*);
+char Swap_Arrays(double*, double*, int, int);
+
+int main(void){
+    /*
+    ---------------------------------------------
+    Zad. 1.
+    ---------------------------------------------
+    */
+    double x, y; //a
+
+    double *p1 = NULL, *p2 = NULL; //b
+
+    printf("Adresy wszystkich zmiennnych:\n&x = %p, &y = %p p1 = %p, p2 = %p\n", &x, &y, &p1, &p2); //c
+
+    printf("Wartości wskaźników:\np1 = %p, p2 = %p\n", p1, p2); //d
+
+    p1 = &x, p2 = &y; //e
+    printf("Wartości wskaźników:\np1 = %p, p2 = %p\n", p1, p2); //f
+
+    printf("Wprowadź nowe wartości x oraz y:\n");
+    scanf("%lf %lf", p1, p2); //g
+    printf("Wartości x oraz y:\nx = %lf, y = %lf\n", x, y); //h
+
+    double sum, diff, prod, quot; //i
+    sum = *p1 + *p2;
+    diff = *p1 - *p2;
+    prod = *p1 * *p2;
+    quot = *p1 / *p2;
+
+    printf("Wartości sum itp.:\nsum = %lf, diff = %lf, prod = %lf, quot = %lf\n", sum, diff, prod, quot); //j
+
+
+
+    /*
+    ---------------------------------------------
+    Zad. 2.
+    ---------------------------------------------
+    */
+    // double x, y;
+    printf("\nWprowadź współrzędne kartezjańskie:\n");
+    scanf("%lf %lf", &x, &y);
+    double r, fi;
+    Cart_to_Polar(x, y, &r, &fi);
+    printf("Współrzędne kartezjańskie:\nx = %lf, y = %lf\nWspółrzędne biegunowe:\nr = %lf, fi = %lf\n", x, y, r, fi);
+
+
+
+    /*
+    ---------------------------------------------
+    Zad. 3.
+    ---------------------------------------------
+    */
+    // double x, y;
+    printf("\nWprowadź współrzędne biegunowe:\n");
+    scanf("%lf %lf", &r, &fi);
+    // double r, fi;
+    Polar_to_Cart(r, fi, &x, &y);
+    printf("Współrzędne biegunowe:\nr = %lf, fi = %lf\nWspółrzędne kartezjańskie:\nx = %lf, y = %lf\n", r, fi, x, y);
+
+
+
+    /*
+    ---------------------------------------------
+    Zad. 4.
+    ---------------------------------------------
+    */
+    double tab1[SIZE], tab2[SIZE];
+
+    for(int i = 0; i < SIZE; i++){
+        tab1[i] = (double)rand() / RAND_MAX;
+        tab2[i] = (double)rand() / RAND_MAX;
+    }
+
+    printf("\ntab1\t\ttab2\n");
+    for(int i = 0; i < SIZE; i++){
+        printf("%lf\t%lf\n", tab1[i], tab2[i]);
+    }
+
+    char result = Swap_Arrays(&tab1[0], &tab2[0], SIZE, SIZE);
+
+    printf("tab1\t\ttab2\n");
+    for(int i = 0; i < SIZE; i++){
+        printf("%lf\t%lf\n", tab1[i], tab2[i]);
+    }
+
+    switch(result){
+        case '0':
+            printf("Elementy nie zamienione: niezgodne rozmiary.\n");
+            break;
+        case '1':
+            printf("Elementy zamienione.\n");
+            break;
+        case '2':
+            printf("Elementy nie zamienione: równe elementy.\n");
+            break;
+    }
+
+}
+
+
+//2.
+void Cart_to_Polar(double x, double y, double* p_r, double* p_fi){
+    *p_r = sqrt(x * x + y * y);
+    *p_fi = atan2(y,x);
+}
+
+//3.
+void Polar_to_Cart(double r, double fi, double* p_x, double* p_y){
+    *p_x = r * cos(fi);
+    *p_y = r * sin(fi);
+}
+
+//4.
+char Swap_Arrays(double* p_tab1, double* p_tab2, int size1, int size2){
+    if(size1 != size2) return '0';
+
+    double* end1 = p_tab1 + size1;
+    int  equals = 0;
+
+    for(; p_tab1 < end1; p_tab1++, p_tab2++){
+        double temp;
+
+        if(*p_tab1 == *p_tab2) equals++;
+        else{
+            temp = *p_tab1;
+            *p_tab1 = *p_tab2;
+            *p_tab2 = temp;
+        }        
+    }
+    
+    if(equals != SIZE) return '1';
+
+    return '2';
+}
