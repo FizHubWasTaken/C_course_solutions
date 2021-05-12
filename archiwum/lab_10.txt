@@ -22,7 +22,8 @@ dostają wartości -1, na wypadek gdyby ktoś próbował
 ich użyć, pomimo tego, że funcja zwróciła 0.
 ---------------------------------------------
 */
-int compute_triangle(double a, double b, double c, double* area, double* circumference){
+int compute_triangle(double a, double b, double c, 
+                     double* area, double* circumference){
     if(a + b >= c  && a + c >= b && b + c >= a){
         *circumference = a + b + c;
         double p = *circumference / 2;
@@ -100,11 +101,15 @@ int main(void){
     // 1. trójkąty
     double a = 2, b = 2, c = 3;
     double area, circumference;
-    if(compute_triangle(a, b, c, &area, &circumference)){
+    int is_triangle = compute_triangle(a, b, c, 
+                                       &area, &circumference);
+
+    if(is_triangle){
         printf("Boki trójkąta: %.1lf, %.1lf, %.1lf.\n", a, b, c);
         printf("Pole: %.3lf\nObwód: %.3lf\n", area, circumference);
     }
-    else printf("Z odcinków o długośćiach: %.1lf, %.1lf, %.1lf nie da się zbudować trójkąta.\n", a, b, c);
+    else printf("Z odcinków o długośćiach: %.1lf, %.1lf, %.1lf "
+                "nie da się zbudować trójkąta.\n", a, b, c);
     printf("\n");
 
     
