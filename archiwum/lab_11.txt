@@ -1,0 +1,59 @@
+#include <ctype.h>
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+
+
+#define ZIELONY "\x1B[32m"
+#define RESET   "\x1B[0m"
+
+
+const char* lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+
+int wyrazy(const char* łańcuch){
+    int rozmiar = strlen(łańcuch);
+    int liczba_wyrazów = 1;
+
+    for(int i = 0; i < rozmiar; i++){
+        if(isspace(*(łańcuch + i))) liczba_wyrazów++;
+    }
+
+    return liczba_wyrazów;
+}
+
+
+void lorem_ipsum(int licz_display){
+    int liczba_wyrazów = wyrazy(lorem);
+    
+    int cykle = floor(licz_display / liczba_wyrazów);
+
+    for(int i = 0; i <= cykle; i++){
+        for(int j = 0; j <= strlen(lorem); j++){
+            if(isspace(*(lorem + j)) || *(lorem + j) == '\0')
+                licz_display--;
+                
+            if(licz_display == 0) break;
+
+            printf("%c", *(lorem + j));
+        }
+        printf("\n\n");
+    }
+}
+
+
+int main(void){
+    printf("A) Tekst lorem ipsum ma %d wyrazów\n",
+           wyrazy(lorem));
+
+    printf("B) Wywołanie dla liczby wyrazów równej 50:\n\n"
+           "lorem_ipsum("ZIELONY"50"RESET");\n\n"
+           "Wyświetla:\n");
+    lorem_ipsum(50);
+
+    printf("C) Wywołanie dla liczby wyrazów równej 80 "
+           "(dwa cykle tekstu):\n\n"
+           "lorem_ipsum("ZIELONY"80"RESET");\n\n"
+           "Wyświetla:\n");
+    lorem_ipsum(80);
+}

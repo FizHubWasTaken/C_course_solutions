@@ -1,133 +1,123 @@
-#include <math.h>
 #include <stdio.h>
-#define SIZE 5
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define N 5
 
 
 /*
 ---------------------------------------------
-Zad. 1. trójkąty
-
-Zmienne area i circumference są tego samego typu,
-więc mogłyby być zwracane przez nadanie wartości
-tab[0] i tab[1] gdzie tab to tablica przekazana
-funkci, ale wtedy nie byłoby oczywiste która z
-wartości to pole, a która to obwód.
-
-Funcja compute_triangle zwraca 1,
-dla trójki dłygości odcinków z których można
-zbudować trójkąt, a 0 kiedy nie można.
-
-W drugim przypadku zmienne area i circumference
-dostają wartości -1, na wypadek gdyby ktoś próbował
-ich użyć, pomimo tego, że funcja zwróciła 0.
+Zad. 1.
 ---------------------------------------------
 */
-int compute_triangle(double a, double b, double c, 
-                     double* area, double* circumference){
-    if(a + b >= c  && a + c >= b && b + c >= a){
-        *circumference = a + b + c;
-        double p = *circumference / 2;
-        *area = p * (p - a) * (p - b) * (p - c);
-        return 1;
-    }
-    else{
-        *circumference = -1;
-        *area = -1;
-        return 0;
-    }
+void przypisz(double (*p_arr)[N], time_t ziarno){
+    srand(ziarno);
+
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            p_arr[i][j] = (double)rand() / RAND_MAX;
+        }
+    } 
 }
 
 
 /*
 ---------------------------------------------
-Zad. 2. trójki
-
-print_pythagorean_triples() sprawdza tylko trójki
-gdzie a <= b <= c, więc nie wypisuje 
-trójek równoważnych co do permutacji.
-
-Dla a, b, c > 0, a*a + b*b = c*c:
-c*c będzie zawsze 
-    1) większe od a*a 
-    2) większe od b*b,
-więc print_pythagorean_triples() nie pomija
-żadnej trójki pitagorejskiej.
+Zad. 2.
 ---------------------------------------------
 */
-int is_pythagorean(int a, int b, int c){
-    return a*a + b*b == c*c;
+void wypisz(double arr[N][N]){
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            printf("%lf ", arr[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
 
-void print_pythagorean_triples(int start, int end){
-    int found_pythagorean = 0;
 
-    printf("Trójki pitagorejskie z przedziału <%d, %d>: \n", 
-            start, end);
-    for(int i = start; i < end - 2; i++){
-        for(int j = i; j < end - 1; j++){
-            for(int k = j; k < end; k++){
-                if(is_pythagorean(i, j, k)){
-                    printf("%2d,  %2d,  %2d\n", i, j, k);
-                    found_pythagorean = 1;
-                }
+/*
+---------------------------------------------
+Zad. 3.
+---------------------------------------------
+*/
+int transponuj(double arr[N][N]){
+    double t;
+    int jest_symetryczna = 1;
+
+    for (int i = 0; i < N; i++){
+        for (int j = 0; j < i; j++) {
+            double t = arr[i][j];
+            arr[i][j] = arr[j][i];
+            arr[j][i] = t;
+
+            if(!(arr[i][j] == arr[j][i])){
+                jest_symetryczna = 0;
             }
         }
     }
 
-    if(!found_pythagorean) 
-        printf("Nie znaleziono żadnej trójki.\n");
+    return jest_symetryczna;
 }
 
 
 /*
 ---------------------------------------------
-Zad. 3. odrwacanie
+Zad. 4.
 ---------------------------------------------
 */
-void reverse_array(int* p_first_element, int length){
-    int* lower = p_first_element;
-    int* upper = lower + length - 1;
-
-    for(; lower < upper; lower++, upper--){
-        int temp = *lower;
-        *lower = *upper;
-        *upper = temp;
+double trace(double* element){
+    double trace = 0;
+    for(int i = 0; i < N; i++){
+        trace += *(element + i * (N + 1));
     }
+    return trace;
 }
 
 
-//zastosowanie funkcji:
+/*
+---------------------------------------------
+Zad. 5.
+---------------------------------------------
+*/
+void wypisz_dane(char** znaki){
+    for(int i = 0; i < 2; i++){
+        for(int j = 0; j < strlen(znaki[i]); j++){
+            printf("%c", znaki[i][j]);
+        }
+        printf("\n");
+    }
+
+    // puts() drukuje łańcuch znaków, więc:
+    //
+    // for(int i = 0; i < 2; i++){
+    //     puts(znaki[i]);
+    // }   
+}
+
+
 int main(void){
-    // 1. trójkąty
-    double a = 2, b = 2, c = 3;
-    double area, circumference;
-    int is_triangle = compute_triangle(a, b, c, 
-                                       &area, &circumference);
+    // 1.
+    double arr[N][N];
+    przypisz(&arr[0], time(0));
 
-    if(is_triangle){
-        printf("Boki trójkąta: %.1lf, %.1lf, %.1lf.\n", a, b, c);
-        printf("Pole: %.3lf\nObwód: %.3lf\n", area, circumference);
-    }
-    else printf("Z odcinków o długośćiach: %.1lf, %.1lf, %.1lf "
-                "nie da się zbudować trójkąta.\n", a, b, c);
-    printf("\n");
+    // 2.
+    wypisz(arr);
 
-    
-    // 2. trójki
-    print_pythagorean_triples(1, 31);
-    printf("\n");
+    // 3.
+    int symetryczna = transponuj(arr);
+    wypisz(arr);
+
+    if(symetryczna) printf("Macierz jest symetryczna\n");
+    else printf("Macierz nie jest ortogonalna\n\n");
+
+    // 4.
+    printf("Ślad macierzy wynosi: %lf\n\n", trace(&arr[0][0]));
 
 
-    // 3. odwracanie
-    int test_array[SIZE] = {000, 111, 222, 333, 444};
-    for(int i = 0; i < SIZE; i++){
-        printf("%03d ", test_array[i]);
-    }
-    printf("\n");
-
-    reverse_array(&test_array[0], SIZE);
-    for(int i = 0; i < SIZE; i++){
-        printf("%03d ", test_array[i]);
-    }
-    printf("\n\n");
+    // 5.
+    char* dane[2] = {"Barack", "Obama"};
+    wypisz_dane(&dane[0]);
 }
