@@ -1,0 +1,9 @@
+Merkury 57.9 0
+Wenus 108.2 0
+Ziemia 149.6 1
+Mars 227.9 2
+Jowisz 483.88 63
+Saturn 1427 56
+Uran 2870 27
+Neptun 4497 13
+Pluton 5900 3

@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define N 10
+
+
+/*
+---------------------------------------------
+Zad. 1.
+---------------------------------------------
+*/
+double dodaj(double x, double y){
+    return x + y;
+}
+double odejmij(double x, double y){
+    return x - y;
+} 
+double pomnoz(double x, double y){
+    return x * y;
+}
+double podziel(double x, double y){
+    return x / y;
+}
+
+
+/*
+---------------------------------------------
+Zad. 2.
+---------------------------------------------
+*/
+int compare(const void* p1, const void* p2){
+    if(*(int*)p1 < *(int*)p2) return -1;
+    else if(*(int*)p1 == *(int*)p2) return 0;
+    else return 1;
+}
+
+
+/*
+---------------------------------------------
+Zad. 4. (dotadkowe?)
+---------------------------------------------
+*/
+long long int* fibonacci(int liczba_elementow){
+    if(liczba_elementow < 1) return NULL;
+
+    long long int* tab = 
+        (long long int*) malloc(liczba_elementow * sizeof(long long int));
+    
+    tab[0] = 0;
+    if(liczba_elementow == 1) return tab;
+    tab[1] = 1;
+
+    for(int i = 2; i < liczba_elementow; i++){
+        tab[i] = tab[i - 2] + tab[i - 1];
+    }
+
+    return tab; 
+}
+ 
+
+int main(void){
+    // 1.
+    double a, b;
+    char znak;
+
+    printf("WPISZ [liczba1] [+-*/] [liczba2]:\n");
+    scanf("%lf %c %lf", &a, &znak, &b);
+
+    double (*p_funkcja)(double, double);
+
+    switch(znak){
+        case '+':
+            p_funkcja = &dodaj;
+            break;
+        case '-':
+            p_funkcja = &odejmij;
+            break;
+        case '*':
+            p_funkcja = &pomnoz;
+            break;
+        case '/':
+            p_funkcja = &podziel;
+            break;
+    }
+    printf("Wynik:\n%lf\n\n", (*p_funkcja)(a, b));
+
+    
+    // 3.
+    // aby funkcja została posortowana malejąco,
+    // można użyć nowej funkcji,
+    // o zachowaniu odwrotnym do compare()
+    int tab[N];
+    for(int i = 0; i < N; i++){
+        tab[i] = rand() % 51;
+    }
+
+    printf("Losowa tablica:\n");
+    for(int i = 0; i < N; i++){
+        printf("%d ", tab[i]);
+    }
+    printf("\n");
+
+    qsort(tab, N, sizeof(int), compare);
+    printf("Posortowana tablica:\n");
+    for(int i = 0; i < N; i++){
+        printf("%d ", tab[i]);
+    }
+    printf("\n\n");
+
+    // 4. (dotatkowe?)
+    int n;
+    printf("Podaj n, liczbę elementów ciągu fibonacciego do wyświetlenia:\n");
+    scanf("%d", &n);
+    long long int* fib = fibonacci(n);
+
+    if(fib != NULL){
+        printf("Ciąg:\n");
+        for(int i = 0; i < n; i++){
+            printf("%llu ", fib[i]);
+        }
+        printf("\n");
+    }
+    else printf("Oto i on: ciąg pusty!\n");
+
+    printf("\n");
+    fib = fibonacci(50);
+    printf("f10 = %lld\nf20 = %lld\nf50 = %lld\n", fib[9], fib[19], fib[49]);
+}

@@ -1,0 +1,128 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+/*
+---------------------------------------------
+Zad. 1.
+---------------------------------------------
+*/
+int* dec2bin(int l_dziesietna){
+    int rozmiar = (int)log2(l_dziesietna) + 2;
+    int* l_binarna_tab = (int*) calloc(rozmiar, sizeof(int));
+    l_binarna_tab[0] = rozmiar;
+
+    int k = rozmiar - 1;
+    for(int i = 1; i < rozmiar; i++){
+        int ita_wartosc = pow(2, k - i);
+        if(l_dziesietna < ita_wartosc) l_binarna_tab[i] = 0;
+
+        else{
+            l_binarna_tab[i] = 1;
+            l_dziesietna -= ita_wartosc;
+        }
+    }
+    return l_binarna_tab;
+}
+
+
+/*
+---------------------------------------------
+Zad. 2.
+---------------------------------------------
+*/
+double** create_mat(int w, int k, int czy_losowe){
+    double **macierz = (double**) calloc(w, sizeof(double*)); 
+    for(int i = 0; i < w; i++)
+        macierz[i] = (double*) calloc(k, sizeof(double));
+
+    if(czy_losowe){
+        for(int i = 0; i < w; i++){
+            for(int j = 0; j < k; j++)
+                macierz[i][j] = (double)rand() / RAND_MAX;
+        }        
+    }   
+    else{
+        for(int i = 0; i < w; i++){
+            for(int j = 0; j < k; j++)
+                macierz[i][j] = 0;
+        }
+    }
+    return macierz;
+}
+
+
+/*
+---------------------------------------------
+Zad. 3.
+---------------------------------------------
+*/
+void free_mat(double** macierz, int w){
+    for(int i = 0; i < w; i++) free(macierz[i]);
+    
+    free(macierz);
+}
+
+
+/*
+---------------------------------------------
+Zad. 4.
+---------------------------------------------
+*/
+void print_mat(double** macierz, int w, int k){
+    for(int i = 0; i < w; i++){
+        for(int j = 0; j < k; j++){
+            printf("%lf ", macierz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
+/*
+---------------------------------------------
+Zad. 5.
+---------------------------------------------
+*/
+double** mult_mat(double** macierz1, double** macierz2, 
+                  int w1, int k1, int k2){
+    double** iloczyn = create_mat(w1, k2, 0);
+    
+    for(int i = 0; i < w1; i++){
+        for(int j = 0; j < k2; j++){
+            for(int x = 0; x < k1; x++){
+                iloczyn[i][j] += macierz1[i][x] * macierz2[x][j]; 
+            }
+        }
+    }
+    return iloczyn;
+}
+
+
+int main(void){
+    // 1.
+    int l_dziesietna;
+    printf("Podaj całkowitą liczbę dziesiętną: ");
+    scanf("%d", &l_dziesietna);
+
+    int* l_binarna_tab = dec2bin(l_dziesietna);
+    printf("Reprezentacja binarna liczby %d jest równa ", l_dziesietna);
+    for(int i = 1; i < l_binarna_tab[0]; i++) printf("%d", l_binarna_tab[i]);
+    printf("\n\n");
+    free(l_binarna_tab);
+
+    // 5.
+    double** m1 = create_mat(5, 6, 1);
+    double** m2 = create_mat(6, 4, 1);
+
+    printf("Macierz m1:\n");
+    print_mat(m1, 5, 6);
+    printf("Macierz m2:\n");
+    print_mat(m2, 6, 4);
+    printf("\n");
+    
+    printf("Iloczyn m1 * m2:\n");
+    double** iloczyn = mult_mat(m1, m2, 5, 6, 4);
+    print_mat(iloczyn, 5, 4);
+}
