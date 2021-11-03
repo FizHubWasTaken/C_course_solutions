@@ -76,5 +76,4 @@ int main(void) {
     scanf("%d", &n);
     printf("Dzielniki liczby %d:\n", n);
     for(int i = 2; i < n; i++) if(!(n%i)) printf("%d\n", i);
-  
 }

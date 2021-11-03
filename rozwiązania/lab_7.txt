@@ -48,7 +48,8 @@ ale jest konieczne w definicji funkcji.
 Zalety prototypów funkcji:
 - pozwalają na wywołanie funkcji 
 jeszcze zanim zostanie zdefiniowana
--
+- pozwalają pozostawienie implementacji
+funkcji na koniec pisania programu
 
 
 Long int ma szerszy 
